@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import Contact from "../component/Contact.jsx";
+import Contact from "./Contact.jsx";
 
 import { Context } from "../store/appContext.js";
 
 const ContactList = () => {
     const {store, actions} = useContext(Context)
 
-    
     return (
         <>
             <ul>
@@ -14,6 +13,7 @@ const ContactList = () => {
                     return(
                         <li key={contact.id} className="d-flex">
                             <Contact 
+                                id={contact.id}
                                 name={contact.name}
                                 phone={contact.phone}
                                 email={contact.email}
