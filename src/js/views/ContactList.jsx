@@ -11,7 +11,7 @@ const ContactList = () => {
             <ul>
                 {store.contacts.map(contact => {
                     return(
-                        <li key={contact.id} className="d-flex">
+                        <li key={contact.id} className="contactListNames d-flex">
                             <Contact 
                                 id={contact.id}
                                 name={contact.name}

@@ -4,11 +4,17 @@ import { Context } from "../store/appContext.js";
 
 const AddContact = () => {
     const {store, actions} = useContext(Context)
+    const updateStatus = store.updateContactData.update==true
+    const [name, setName] = useState(updateStatus ? store.updateContactData.name : "");
+    const [email, setEmail] = useState(updateStatus ? store.updateContactData.email : "");
+    const [phone, setPhone] = useState(updateStatus ? store.updateContactData.phone : "");
+    const[address, setAddress] = useState(updateStatus ? store.updateContactData.address : "");
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const[address, setAddress] = useState("");
+    const [updateName, setupdateName] = useState("");
+    const [updateEmail, setUpdateEmail] = useState("");
+    const [updatePhone, setUpdatePhone] = useState("");
+    const[updateAddress, setUpdateAddress] = useState("");
+    
 
     return (
         <>
@@ -84,7 +90,8 @@ const AddContact = () => {
                         </div>
                     </div>
                 </section>
-                <button className="mt-3" onClick={() => {actions.createContact(name, email, phone, address)}}>Save</button>
+                <button className="mt-3" onClick={() => {actions.createContact(name, email, phone, address)}}>Save New Contact</button>
+                <button className="mt-3" onClick={() => {actions.updateContact(store.updateContactData.id, name, phone, email, address)}}>Update Contact</button>
                 <div>
                     <Link to="/">
                     <span>or get back to Contacts</span>

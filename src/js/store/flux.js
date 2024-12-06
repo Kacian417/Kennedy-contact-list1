@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			contacts: []
+			contacts: [],
+			updateContactData: {update:false}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -41,6 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.catch(error => console.log("Error: ", error))
 			},
+
 			deleteContact: (contactId) => {
 				//use fetch to delete a contact
 				fetch(`https://playground.4geeks.com/contact/agendas/kennedy/contacts/${contactId}`, {
@@ -58,6 +60,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.catch(error => console.log(error))
 				
 			},
+			updateContactData: (receiveData) => {
+				setStore({updateContactData: receiveData})
+			},
+			updateContact: (id, name, phone, email, address) => {
+				let updateContact = {
+					name: name,
+					phone: phone,
+					email: email,
+					address: address,
+				}
+				
+				let options = {
+					method: 'PUT',
+  					body: JSON.stringify(updateContact),
+  					headers: {
+    					'Content-Type': 'application/json'
+					}
+				}
+				fetch(`https://playground.4geeks.com/contact/agendas/kennedy/contacts/${id}`, 
+				options
+			)
+				.then(response => {
+					if (response.status !== 204) {
+						console.log("Error! Contact not found.")
+						
+						throw Error(response.statusText)
+					}
+					console.log("Update of contact successful.")
+					getActions().getContacts();
+					return response.json();
+				})
+				.catch(error => console.log(error))
+			},	
+
 			createContact: (name, email, phone, address) => {
 
 				let contact = {
@@ -84,7 +120,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return response.json();
 				})
 				.catch(error => console.log("More info on errror: ", error))
-			}	
+			},
+			
+			
 		}
 	};
 };
